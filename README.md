@@ -1,0 +1,1 @@
+# nexdata-plan-estrategico1
