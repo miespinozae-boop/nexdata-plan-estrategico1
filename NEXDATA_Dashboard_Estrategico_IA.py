@@ -245,85 +245,67 @@ with tabs[1]:
                 <h4>{title}</h4><p>{body}</p></div>""",unsafe_allow_html=True)
 
 with tabs[2]:
-    st.subheader("Herramientas de dirección estratégica")
-    st.info("Las herramientas no se presentan de forma aislada: el diagnóstico orienta los objetivos, los KPI miden su cumplimiento y el dashboard permite controlar y retroalimentar la estrategia.")
-    st.markdown("### Matriz FODA")
-    fc=st.columns(4)
+    st.subheader("Diagnóstico FODA y decisiones estratégicas de NEXDATA")
+    st.caption("Diagnóstico propuesto para la etapa de desarrollo y validación comercial; no representa resultados de un estudio de mercado.")
     foda_items=[
-        ("✦","Fortalezas","Propuesta accesible, visualización simple, análisis y simulación integrados.","f-strength"),
-        ("↗","Oportunidades","Digitalización de MYPES y mayor interés por decisiones basadas en datos.","f-opportunity"),
-        ("△","Debilidades","Etapa inicial, recursos limitados y necesidad de validación comercial.","f-weakness"),
-        ("!","Amenazas","Soluciones BI consolidadas, cambios tecnológicos y resistencia a la adopción.","f-threat")]
-    for col,(ic,t,b,cl) in zip(fc,foda_items):
-        with col: st.markdown(f'<div class="foda-card {cl}"><div style="font-size:23px">{ic}</div><h4>{t}</h4><p>{b}</p></div>',unsafe_allow_html=True)
-
-    st.markdown("### Herramientas integradas")
-    hc=st.columns(4)
-    tools=[
-        ("◇","Business Model Canvas","Define cómo NEXDATA crea, entrega y captura valor.","c-blue"),
-        ("◎","FODA","Convierte el diagnóstico interno y externo en prioridades.","c-cyan"),
-        ("▥","KPI","Transforma los objetivos en resultados medibles.","c-violet"),
-        ("✦","Dashboard IA","Integra seguimiento, alertas y recomendaciones.","c-mint")]
-    for col,(ic,t,b,cl) in zip(hc,tools):
-        with col: st.markdown(f'<div class="dynamic-grid-card {cl}" style="min-height:160px"><div class="dynamic-icon">{ic}</div><h4>{t}</h4><p>{b}</p></div>',unsafe_allow_html=True)
-
-    st.markdown("### Relación estratégica")
-    st.markdown("""<div class="strategy-ribbon"><b>Flujo de dirección estratégica</b><br><br>
-    <span class="flow-chip">Canvas</span><span class="flow-arrow2">›</span>
-    <span class="flow-chip">FODA</span><span class="flow-arrow2">›</span>
-    <span class="flow-chip">Objetivos</span><span class="flow-arrow2">›</span>
-    <span class="flow-chip">Metas</span><span class="flow-arrow2">›</span>
-    <span class="flow-chip">KPI</span><span class="flow-arrow2">›</span>
-    <span class="flow-chip">Acciones</span><span class="flow-arrow2">›</span>
-    <span class="flow-chip">Dashboard IA</span><span class="flow-arrow2">›</span>
-    <span class="flow-chip">Control + mejora</span></div>""",unsafe_allow_html=True)
+        ("✦","FORTALEZAS","NEXDATA ya permite cargar Excel/CSV, visualizar ventas y rentabilidad y simular escenarios.","Mostrar un caso de uso realista de una MYPE y demostrar que el análisis es fácil de utilizar.","Marketing","c-mint"),
+        ("↗","OPORTUNIDADES","Las MYPES pueden beneficiarse de digitalizar su información y medir sus resultados.","Realizar demostraciones y una prueba piloto con negocios interesados.","Marketing","c-blue"),
+        ("△","DEBILIDADES","La plataforma está en desarrollo; faltan validación comercial, retroalimentación de usuarios y ajustes.","Registrar incidencias, entrevistar usuarios piloto y priorizar mejoras de usabilidad.","Operaciones / Logística","c-amber"),
+        ("!","AMENAZAS","Existen herramientas BI consolidadas y resistencia de algunos negocios a adoptar soluciones nuevas.","Diferenciar NEXDATA por simplicidad, soporte y enfoque en MYPES; ofrecer una capacitación inicial.","Dirección / Marketing","c-rose"),
+    ]
+    cards=st.columns(2)
+    for i,(icon,title,diagnostico,accion,area,color) in enumerate(foda_items):
+        with cards[i%2]:
+            st.markdown(f"""<div class="dynamic-grid-card {color}" style="min-height:235px">
+            <div class="dynamic-icon">{icon}</div><h4>{title}</h4>
+            <p><b>Situación NEXDATA:</b> {diagnostico}</p><br>
+            <p><b>Respuesta estratégica:</b> {accion}</p><br>
+            <div class="dynamic-number">Responsable: {area}</div></div>""",unsafe_allow_html=True)
+    st.markdown("### De la matriz FODA a la ejecución")
+    decisiones=pd.DataFrame([
+        ["FO · Crecimiento","Aprovechar las funciones de análisis para captar MYPES","Demostraciones y campañas digitales","Marketing","Tasa de conversión","30 prospectos y 10 clientes / 6 meses"],
+        ["DO · Validación","Reducir incertidumbre del producto con usuarios piloto","Pruebas, entrevistas y mejoras","Operaciones","Disponibilidad de plataforma","≥95%"],
+        ["FA · Diferenciación","Competir mediante sencillez y acompañamiento","Tutoriales y demostraciones guiadas","Marketing / RR. HH.","Tasa de conversión / capacitación","33% / 100%"],
+        ["DA · Sostenibilidad","Controlar costos mientras se mejora la plataforma","Flujo de caja y revisión mensual","Finanzas","Cobertura de costos","≥100% al mes 6"]
+    ],columns=["Estrategia","Decisión para NEXDATA","Acción / entregable","Responsable","KPI asociado","Meta"])
+    st.dataframe(decisiones,use_container_width=True,hide_index=True)
+    st.markdown("""<div class="strategy-ribbon"><b>Integración estratégica</b><br><br>
+    <span class="flow-chip">Canvas: valor para MYPES</span> ›
+    <span class="flow-chip">FODA: diagnóstico NEXDATA</span> ›
+    <span class="flow-chip">Estrategias FO / DO / FA / DA</span> ›
+    <span class="flow-chip">Acciones por área</span> ›
+    <span class="flow-chip">KPI y control</span></div>""",unsafe_allow_html=True)
 
 with tabs[3]:
-    st.subheader("Las 4 funciones claves de la gestión")
-    funcs=[
-        ("1. Planificación","Define visión, misión, cultura, objetivos, metas, indicadores, acciones, cronograma y presupuesto."),
-        ("2. Organización","Asigna responsables, recursos y funciones entre Marketing, RR. HH., Finanzas y Operaciones/Logística."),
-        ("3. Dirección","Coordina al equipo, ejecuta las acciones estratégicas y orienta los recursos hacia los resultados esperados."),
-        ("4. Control","Compara los KPI reales con las metas, identifica desviaciones y permite aplicar acciones correctivas.")
+    st.subheader("Las 4 funciones de gestión ejecutadas en NEXDATA")
+    st.caption("Cada función incluye qué hará el equipo, quién responde, qué se entregará y cómo se comprobará.")
+    funciones=[
+        ("01 · PLANIFICACIÓN","Definir el lanzamiento piloto: captar 30 prospectos, convertir 10 clientes y lograr cobertura de costos al mes 6.","Dirección + Marketing + Finanzas","Plan de captación, metas por área, cronograma de seis meses y presupuesto de S/ 2,100.","Metas y presupuesto aprobados","c-blue"),
+        ("02 · ORGANIZACIÓN","Asignar Marketing a captación; RR. HH. a formación; Finanzas a flujo de caja; Operaciones a pruebas y disponibilidad.","Responsables de las cuatro áreas","Matriz de responsables, recursos asignados y calendario de actividades.","100% de actividades con responsable","c-cyan"),
+        ("03 · DIRECCIÓN / EJECUCIÓN","Lanzar campañas, demostrar el dashboard a MYPES, capacitar al equipo y corregir errores reportados en pruebas.","Dirección y líderes de área","Campañas, registro de demostraciones, actas de capacitación y versión mejorada.","Conversión, capacitación y disponibilidad","c-violet"),
+        ("04 · CONTROL Y MEJORA","Comparar mensualmente los KPI reales con las metas; si RR. HH. llega solo a 75%, reprogramar la capacitación pendiente.","Dirección + responsables de KPI","Semáforo, reporte de desviaciones, decisiones correctivas y seguimiento.","4 KPI monitoreados cada mes","c-mint"),
     ]
-    cc=st.columns(4)
-    fun_icons=["◎","▦","➜","✓"]
-    fun_classes=["c-blue","c-cyan","c-violet","c-mint"]
-    for i,(c,(t,b)) in enumerate(zip(cc,funcs)):
-        with c:
-            st.markdown(f"""<div class="dynamic-grid-card {fun_classes[i]}">
-            <div class="dynamic-icon">{fun_icons[i]}</div><div class="dynamic-number">FUNCIÓN {i+1:02d}</div>
-            <h4>{t.replace(str(i+1)+'. ','')}</h4><p>{b}</p></div>""",unsafe_allow_html=True)
-    st.markdown("### Sistema de gestión")
-    st.markdown("""<div class="management-loop"><b>Ciclo de gestión NEXDATA</b><br><br>
-    <span class="loop-step" style="background:#4F7CFF">01 · PLANIFICAR</span> →
-    <span class="loop-step" style="background:#16B9D4">02 · ORGANIZAR</span> →
-    <span class="loop-step" style="background:#8B5CF6">03 · DIRIGIR</span> →
-    <span class="loop-step" style="background:#19B99F">04 · CONTROLAR</span> →
-    <span class="loop-step" style="background:#D99518">RETROALIMENTAR</span>
-    <p style="margin:14px 0 0;opacity:.86">Los resultados del control vuelven a la planificación para actualizar decisiones, recursos y acciones.</p></div>""",unsafe_allow_html=True)
+    cols=st.columns(2)
+    for i,(title,accion,responsable,entregable,control,color) in enumerate(funciones):
+        with cols[i%2]:
+            st.markdown(f"""<div class="dynamic-grid-card {color}" style="min-height:260px">
+            <div class="dynamic-number">FUNCIÓN {i+1:02d}</div><h4>{title}</h4>
+            <p><b>Aplicación:</b> {accion}</p><br>
+            <p><b>Responsables:</b> {responsable}</p><br>
+            <p><b>Entregable:</b> {entregable}</p><br>
+            <p><b>Control:</b> {control}</p></div>""",unsafe_allow_html=True)
+    st.markdown("### Ejemplo de decisión correctiva")
+    st.info("Si el indicador de capacitación marca 75% frente a una meta de 100%, Dirección encarga a RR. HH. programar la capacitación faltante, registrar la asistencia y revisar nuevamente el KPI el mes siguiente.")
+    st.markdown("""<div class="management-loop"><b>Ciclo de gestión aplicado a NEXDATA</b><br><br>
+    <span class="loop-step" style="background:#4F7CFF">PLANIFICAR METAS</span> →
+    <span class="loop-step" style="background:#16B9D4">ASIGNAR RESPONSABLES</span> →
+    <span class="loop-step" style="background:#8B5CF6">EJECUTAR CAMPAÑAS Y MEJORAS</span> →
+    <span class="loop-step" style="background:#19B99F">MEDIR KPI</span> →
+    <span class="loop-step" style="background:#D99518">CORREGIR DESVIACIONES</span></div>""",unsafe_allow_html=True)
 
 with tabs[4]:
     st.subheader("Objetivos estratégicos, metas e indicadores")
-    st.markdown("### ✎ Centro de edición estratégica")
-    st.caption("Modifica objetivos, metas, KPI y fórmulas directamente. Los cambios quedan activos durante la sesión.")
-    if "areas_editables" not in st.session_state:
-        st.session_state.areas_editables = areas.copy()
-    edited_areas = st.data_editor(
-        st.session_state.areas_editables[["Área","Objetivo","Meta","KPI","Fórmula","Meta_KPI"]],
-        use_container_width=True, hide_index=True, num_rows="fixed",
-        column_config={
-            "Área": st.column_config.TextColumn("Área estratégica", disabled=True),
-            "Objetivo": st.column_config.TextColumn("Objetivo estratégico", width="large"),
-            "Meta": st.column_config.TextColumn("Meta", width="large"),
-            "KPI": st.column_config.TextColumn("Indicador KPI", width="medium"),
-            "Fórmula": st.column_config.TextColumn("Fórmula de medición", width="medium"),
-            "Meta_KPI": st.column_config.NumberColumn("Meta KPI (%)", min_value=0.0, max_value=200.0, step=1.0, format="%.0f%%"),
-        },
-        key="editor_estrategico"
-    )
-    st.session_state.areas_editables.loc[:, edited_areas.columns] = edited_areas
-    areas = st.session_state.areas_editables.copy()
+    st.dataframe(areas[["Área","Objetivo","Meta","KPI","Fórmula"]],use_container_width=True,hide_index=True)
     st.markdown("### Simulación de avance de KPI")
     cols=st.columns(4)
     ranges={"Marketing":100,"RR. HH.":100,"Finanzas":160,"Operaciones / Logística":100}
@@ -338,34 +320,7 @@ with tabs[4]:
             st.caption(f"{r['KPI']}: {actual:.1f}% · Meta {r['Meta_KPI']:.0f}%")
             st.write(estado)
 
-    st.markdown("### Visualización ejecutiva de desempeño")
-    radar_vals=[]
-    radar_labels=[]
-    for _,rr in areas.iterrows():
-        radar_labels.append(rr["Área"])
-        radar_vals.append(min(st.session_state.actuales[rr["Área"]] / max(rr["Meta_KPI"],1) * 100, 120))
-    radar_vals_closed = radar_vals + [radar_vals[0]]
-    radar_labels_closed = radar_labels + [radar_labels[0]]
-    fig_radar = go.Figure()
-    fig_radar.add_trace(go.Scatterpolar(
-        r=radar_vals_closed, theta=radar_labels_closed, fill="toself",
-        fillcolor="rgba(79,124,255,.18)", line=dict(color="#4F7CFF",width=3),
-        marker=dict(size=8,color=["#4F7CFF","#8B5CF6","#2DD4BF","#21B8D7","#4F7CFF"]),
-        hovertemplate="<b>%{theta}</b><br>Cumplimiento: %{r:.0f}%<extra></extra>"
-    ))
-    fig_radar.update_layout(
-        title="Radar de equilibrio estratégico",
-        polar=dict(
-            bgcolor="#FFFFFF",
-            radialaxis=dict(visible=True,range=[0,120],tickvals=[25,50,75,100],ticksuffix="%",gridcolor="#E6ECF4"),
-            angularaxis=dict(gridcolor="#E6ECF4",tickfont=dict(color="#17243B",size=12))
-        ),
-        paper_bgcolor="rgba(0,0,0,0)", height=430, margin=dict(l=70,r=70,t=70,b=50),
-        font=dict(family="Inter",color="#17243B"), showlegend=False
-    )
-    st.plotly_chart(fig_radar,use_container_width=True,config={"displayModeBar":False})
-
-    st.markdown("### Acciones y entregables")
+    st.markdown("### Acciones y entregables vinculados a la estrategia NEXDATA")
     actions=pd.DataFrame([
         ["Marketing","Campañas digitales y contenido educativo","Plan de contenidos + piezas digitales","Marketing"],
         ["Marketing","Demostraciones y prueba piloto","Base de prospectos + reporte de captación","Marketing"],
@@ -374,21 +329,9 @@ with tabs[4]:
         ["Operaciones / Logística","Pruebas y corrección de incidencias","Registro de incidencias","Tecnología"],
         ["Operaciones / Logística","Mejoras funcionales de la plataforma","Versión optimizada de NEXDATA","Tecnología"],
     ],columns=["Área","Acción","Entregable","Responsable"])
-    if "actions_editables" not in st.session_state:
-        st.session_state.actions_editables = actions.copy()
-    edited_actions = st.data_editor(
-        st.session_state.actions_editables,
-        use_container_width=True, hide_index=True, num_rows="dynamic",
-        column_config={
-            "Área": st.column_config.SelectboxColumn("Área", options=["Marketing","RR. HH.","Finanzas","Operaciones / Logística"], width="medium"),
-            "Acción": st.column_config.TextColumn("Acción estratégica", width="large"),
-            "Entregable": st.column_config.TextColumn("Entregable", width="large"),
-            "Responsable": st.column_config.TextColumn("Responsable", width="medium"),
-        },
-        key="editor_acciones"
-    )
-    st.session_state.actions_editables = edited_actions
-    st.caption("＋ Puedes agregar, eliminar o modificar acciones y entregables directamente en esta tabla.")
+    actions["Relación estratégica"]=["FO · Captación","FO · Prueba piloto","FA · Diferenciación","DA · Sostenibilidad","DO · Validación","DO · Mejora"]
+    st.dataframe(actions,use_container_width=True,hide_index=True)
+    st.caption("Cada acción responde a un hallazgo FODA y aporta al seguimiento de los KPI.")
 
 with tabs[5]:
     st.subheader("Cronograma estratégico")
@@ -436,7 +379,8 @@ with tabs[6]:
     st.dataframe(budget,use_container_width=True,hide_index=True)
 
 with tabs[7]:
-    st.subheader("🤖 Análisis Estratégico IA")
+    st.subheader("🤖 Análisis estratégico automatizado de NEXDATA")
+    st.caption("Las recomendaciones se generan mediante reglas según los KPI simulados; no se conectan a un modelo generativo.")
     gaps=[]
     for _,r in areas.iterrows():
         actual=st.session_state.actuales[r["Área"]]
@@ -465,23 +409,7 @@ El resultado debe revisarse periódicamente para retroalimentar la planificació
         ratio=actual/r["Meta_KPI"]
         estado="🟢 Cumple" if ratio>=1 else ("🟡 En riesgo" if ratio>=.75 else "🔴 Crítico")
         sem.append([r["Área"],r["KPI"],f"{actual:.1f}%",f"{r['Meta_KPI']:.0f}%",estado])
-    sem_df=pd.DataFrame(sem,columns=["Área","KPI","Actual","Meta","Estado"])
-    sem_df["Avance"]=[
-        min(st.session_state.actuales[r["Área"]] / max(r["Meta_KPI"],1) * 100,100)
-        for _,r in areas.iterrows()
-    ]
-    st.dataframe(
-        sem_df,
-        use_container_width=True,hide_index=True,
-        column_config={
-            "Área": st.column_config.TextColumn("Área estratégica",width="medium"),
-            "KPI": st.column_config.TextColumn("Indicador",width="medium"),
-            "Actual": st.column_config.TextColumn("Resultado"),
-            "Meta": st.column_config.TextColumn("Meta"),
-            "Estado": st.column_config.TextColumn("Semáforo"),
-            "Avance": st.column_config.ProgressColumn("Cumplimiento",min_value=0,max_value=100,format="%.0f%%")
-        }
-    )
+    st.dataframe(pd.DataFrame(sem,columns=["Área","KPI","Actual","Meta","Estado"]),use_container_width=True,hide_index=True)
 
 
 st.markdown("""
@@ -623,26 +551,6 @@ st.markdown("""
  display:inline-block;padding:10px 15px;margin:5px;border-radius:12px;font-size:12px;font-weight:800;
  border:1px solid rgba(255,255,255,.14)
 }
-</style>
-""", unsafe_allow_html=True)
-
-
-st.markdown("""
-<style>
-/* DATA CONTROL CENTER */
-[data-testid="stDataEditor"], [data-testid="stDataFrame"]{
-  border:1px solid #DDE6F2!important;border-radius:18px!important;overflow:hidden!important;
-  box-shadow:0 10px 28px rgba(18,45,75,.055)!important;background:#fff!important;
-}
-[data-testid="stDataEditor"] [role="columnheader"],
-[data-testid="stDataFrame"] [role="columnheader"]{
-  background:linear-gradient(180deg,#F2F6FC,#EAF1FA)!important;
-  color:#0B1F3A!important;font-weight:800!important;
-}
-[data-testid="stDataEditor"] [role="gridcell"],
-[data-testid="stDataFrame"] [role="gridcell"]{border-color:#E8EDF4!important}
-.stSlider{background:#FFFFFF;border:1px solid #E3EAF3;border-radius:16px;padding:12px 14px 7px;
-box-shadow:0 6px 18px rgba(18,45,75,.04)}
 </style>
 """, unsafe_allow_html=True)
 
